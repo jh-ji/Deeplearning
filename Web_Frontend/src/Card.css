@@ -1,0 +1,48 @@
+.Card{
+    background-color: rgba(255, 255, 255, 0.9);
+    margin-left: 35vw;
+    margin-right: 35vw;
+    margin-bottom: 3vh;
+    border-radius: 20px;
+    box-Shadow: 10px 10px 8px 0 rgba(255, 255, 255, 0.1)
+}
+.con2{
+    color:red;
+}
+.viewbutton{
+    margin-top: 1vh;
+    width: 40%;
+    height:43px;
+    border:white;
+    font-weight: 600;
+    background-color: rgb(166, 162, 162);;
+    border-radius: 64px;
+    color: black;
+    cursor:pointer;
+    margin-bottom: 16px;
+    transition: transform 0.3s ease;
+    font-size: 17px;
+    animation: fadein 2;
+    -webkit-animation: fadein 2s;
+}
+.viewbutton:hover{
+    
+    
+    transform:scale(1.1);
+  }
+@keyframes fadein{
+    from{
+        opacity: 0;
+    }
+    to{
+        opacity: 1;
+    }
+}
+@-webkit-keyframes fadein{
+    from{
+        opacity: 0;
+    }
+    to{
+        opacity: 1;
+    }
+}
