@@ -39,9 +39,7 @@ const tcpServer = net.createServer(socket => {
 tcpServer.on('error', err => {
     console.error('TCP Server error:', err);
 });
-tcpServer.on('error', err => {
-    console.error('TCP Server error:', err);
-});
+
 tcpServer.listen(8000, () => {
     console.log('TCP server listening on port 8000');
 });
@@ -82,9 +80,7 @@ const tcpServer2 = net.createServer(socket => {
 tcpServer2.on('error', err => {
     console.error('TCP Server error:', err);
 });
-tcpServer2.on('error', err => {
-    console.error('TCP Server error:', err);
-});
+
 tcpServer2.listen(8001, () => {
     console.log('TCP server listening on port 8001');
 });
@@ -113,7 +109,6 @@ wss2.on('connection', ws => {
 
     ws.on('message', message => {
         console.log('Received message from WebSocket client:', message);
-        
     });
 
     ws.on('close', () => {
