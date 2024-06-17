@@ -66,11 +66,12 @@ from utils.general import (
     xyxy2xywh,
 )
 from utils.torch_utils import select_device, smart_inference_mode
-#server_address = ('미기재', 8000) #AWS인스턴스의 IP
+#server_address = ('127.0.0.1', 8000) 
 server_address = ('3.38.231.37', 8000)
 client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 client_socket.connect(server_address)
 server_address2 = ('3.38.231.37', 8001)
+#server_address2 = ('127.0.0.1', 8001)
 client_socket2 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 client_socket2.connect(server_address2)
 @smart_inference_mode()
@@ -239,19 +240,12 @@ def run(
                     cv2.resizeWindow(str(p), im0.shape[1], im0.shape[0])
                 cv2.imshow(str(p), im0)
                 print(n.item())
-                base64_result = base64.b64encode(str(int(n.item())).encode())
-
-                client_socket2.sendall(base64_result)
+                #base64_result = base64.b64encode(str(int(n.item())).encode())
+                #client_socket2.sendall(base64_result)
                 retval, buffer = cv2.imencode('.jpeg',im0)
-                # separ=b'@@@'
                 base64_image = base64.b64encode(buffer)
-                # base64_image2 = base64.b64encode(buffer).decode('utf-8')
+
                 client_socket.sendall(base64_image)
-                client_socket.close()
-                client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-                client_socket.connect(server_address)
-                # cv2.imshow('1',im0)
-                cv2.waitKey(1)  # 1 millisecond
                 cv2.waitKey(1)  # 1 millisecond
 
             # Save results (image with detections)
@@ -275,7 +269,8 @@ def run(
 
         # Print time (inference-only)
         LOGGER.info(f"{s}{'' if len(det) else '(no detections), '}{dt[1].dt * 1E3:.1f}ms")
-
+        base64_result = base64.b64encode(str(int(n.item())).encode())
+        client_socket2.sendall(base64_result)
     # Print results
     t = tuple(x.t / seen * 1e3 for x in dt)  # speeds per image
     LOGGER.info(f"Speed: %.1fms pre-process, %.1fms inference, %.1fms NMS per image at shape {(1, 3, *imgsz)}" % t)

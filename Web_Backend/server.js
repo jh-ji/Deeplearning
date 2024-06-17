@@ -8,28 +8,31 @@ const server = http.createServer(app);
 const server2 = http.createServer(app);
 const wss = new WebSocket.Server({ server });
 const wss2 = new WebSocket.Server({ server: server2 });
-
+let send=false;
 // TCP 서버 생성
 const tcpServer = net.createServer(socket => {
     console.log('Client connected');
     let receivedData='';
     socket.on('data', data => {
+        if(send==true){
+            wss.clients.forEach(client => {
+                if (client.readyState === WebSocket.OPEN) {
+                    client.send(receivedData);
+                }
+            });
+            send=false;
+            receivedData = '';
+        }
         receivedData += data.toString('utf-8');
+        
     });
 
     socket.on('end', () => {
         console.log('Client disconnected');
-        wss.clients.forEach(client => {
-            if (client.readyState === WebSocket.OPEN) {
-                //console.log('Received data:', receivedData);
-                client.send(receivedData);
-            }
-        });
-        receivedData = '';
+
     });
     socket.on('error', err => {
         console.error('Socket error:', err);
-        // Handle error as needed
     });
 });
 
@@ -58,8 +61,8 @@ const tcpServer2 = net.createServer(socket => {
 
         wss2.clients.forEach(client => {
             if (client.readyState === WebSocket.OPEN) {
-                //console.log('Received data:', receivedData);
                 client.send(utf8String);
+                send=true;
             }
         });
         
