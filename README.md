@@ -1,4 +1,4 @@
-# YOLOV5를 이용한 인원 혼잡도 관제 시스템
+# 인원 혼잡도 관제 시스템
 ### (시연영상다운가능)
 ![시스템구조](https://github.com/jh-ji/Deeplearning/blob/master/%EA%B5%AC%EC%A1%B0%EB%8F%84.png?raw=true)
 ## UI로 WEB사용
